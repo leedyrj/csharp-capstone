@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace capstoneapi.Models
 {
-    public class Expenses
+    public class Expense
     {
         public int Id { get; set; }
 
@@ -29,10 +31,12 @@ namespace capstoneapi.Models
         [Required]
         [Display(Name = "Type of Expense")]
         public int ExpenseTypeId { get; set; }
-        public ExpenseTypes expenseTypes { get; set; } 
+        public ExpenseType ExpenseTypes { get; set; } 
 
         [Required]
         public int ReportId { get; set; }
-        public Reports reports { get; set; }
+        public Report Report { get; set; }
+
+        public virtual ICollection<Photo> Photos { get; set; }
     }
 }

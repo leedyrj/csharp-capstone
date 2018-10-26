@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace capstoneapi.Models
 {
-    public class Reports
+    public class Report
     {
         public int Id { get; set; }
 
@@ -20,7 +22,8 @@ namespace capstoneapi.Models
         public string Purpose { get; set; }
 
         [Required]
-        public int EmployeeId { get; set; }
-        public Employees Employees { get; set; }
+        public Employee Employee { get; set; }
+
+        public virtual ICollection<Expense> Expenses { get; set; }
     }
 }
