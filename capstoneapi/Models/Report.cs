@@ -21,7 +21,7 @@ namespace capstoneapi.Models
         [Display(Name = "Destination/Purpose")]
         public string Purpose { get; set; }
 
-        [Required]
+        public string EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
         public virtual ICollection<Expense> Expenses { get; set; }

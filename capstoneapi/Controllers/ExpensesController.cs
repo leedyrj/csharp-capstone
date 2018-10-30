@@ -56,10 +56,11 @@ namespace capstoneapi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != expense.Id)
-            {
-                return BadRequest();
-            }
+            expense.Id = id;
+            //if (id != expense.Id)
+            //{
+            //    return BadRequest();
+            //}
 
             _context.Entry(expense).State = EntityState.Modified;
 

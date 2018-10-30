@@ -20,9 +20,6 @@ namespace capstoneapi.Models
         public string LastName { get; set; }
 
         [Required]
-        public string Password { get; set; }
-
-        [Required]
         [Display(Name = "Department")]
         public int DepartmentId { get; set; }
         public Department Department { get; set; }

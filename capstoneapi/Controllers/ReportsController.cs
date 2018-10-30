@@ -86,6 +86,7 @@ namespace capstoneapi.Controllers
         [HttpPost]
         public async Task<IActionResult> PostReport([FromBody] Report report)
         {
+            Console.WriteLine("test");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using capstoneapi.Data;
 using capstoneapi.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace capstoneapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CapstonePolicy")]
     public class DepartmentsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
