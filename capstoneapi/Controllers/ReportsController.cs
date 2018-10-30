@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using capstoneapi.Data;
 using capstoneapi.Models;
+using Newtonsoft.Json;
 
 namespace capstoneapi.Controllers
 {
@@ -25,7 +26,14 @@ namespace capstoneapi.Controllers
         [HttpGet]
         public IEnumerable<Report> GetReports()
         {
-            return _context.Reports;
+            return _context.Reports
+                .Include(r => r.Expenses);
+
+            //var dbReports = _context.Reports
+            //    .Include(r => r.Expenses);
+
+            //var json = JsonConvert.SerializeObject(new { reports = dbReports });
+            //return json;
         }
 
         // GET: api/Reports/5
@@ -37,7 +45,10 @@ namespace capstoneapi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var report = await _context.Reports.FindAsync(id);
+            var report = await _context.Reports
+                            .Include(r => r.Expenses)
+                            .Where(r => r.Id == id)
+                            .SingleAsync();
 
             if (report == null)
             {
@@ -48,39 +59,39 @@ namespace capstoneapi.Controllers
         }
 
         // PUT: api/Reports/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutReport([FromRoute] int id, [FromBody] Report report)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutReport([FromRoute] int id, [FromBody] Report report)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != report.Id)
-            {
-                return BadRequest();
-            }
+        //    if (id != report.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.Entry(report).State = EntityState.Modified;
+        //    _context.Entry(report).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReportExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ReportExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         // POST: api/Reports
         [HttpPost]
@@ -99,29 +110,29 @@ namespace capstoneapi.Controllers
         }
 
         // DELETE: api/Reports/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteReport([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+    //    [HttpDelete("{id}")]
+    //    public async Task<IActionResult> DeleteReport([FromRoute] int id)
+    //    {
+    //        if (!ModelState.IsValid)
+    //        {
+    //            return BadRequest(ModelState);
+    //        }
 
-            var report = await _context.Reports.FindAsync(id);
-            if (report == null)
-            {
-                return NotFound();
-            }
+    //        var report = await _context.Reports.FindAsync(id);
+    //        if (report == null)
+    //        {
+    //            return NotFound();
+    //        }
 
-            _context.Reports.Remove(report);
-            await _context.SaveChangesAsync();
+    //        _context.Reports.Remove(report);
+    //        await _context.SaveChangesAsync();
 
-            return Ok(report);
-        }
+    //        return Ok(report);
+    //    }
 
-        private bool ReportExists(int id)
-        {
-            return _context.Reports.Any(e => e.Id == id);
-        }
+    //    private bool ReportExists(int id)
+    //    {
+    //        return _context.Reports.Any(e => e.Id == id);
+    //    }
     }
 }
