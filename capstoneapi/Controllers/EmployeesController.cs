@@ -20,7 +20,7 @@ namespace capstoneapi.Controllers
 
         [Route("/api/token")]
         [ApiController]
-        [EnableCors("JukeboxPolicy")]
+        [EnableCors("CapstonePolicy")]
         public class TokenController : ControllerBase
         {
             private ApplicationDbContext _context;
@@ -36,7 +36,7 @@ namespace capstoneapi.Controllers
             }
 
             [HttpGet]
-            [Authorize]
+            //[Authorize]
             public IActionResult Get()
             {
                 return new ObjectResult(new
