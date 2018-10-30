@@ -16,6 +16,7 @@ using capstoneapi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using capstoneapi.Models;
+using Newtonsoft.Json;
 
 namespace capstoneapi
 {
@@ -48,6 +49,10 @@ namespace capstoneapi
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

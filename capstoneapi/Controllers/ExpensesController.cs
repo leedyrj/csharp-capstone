@@ -25,7 +25,8 @@ namespace capstoneapi.Controllers
         [HttpGet]
         public IEnumerable<Expense> GetExpenses()
         {
-            return _context.Expenses;
+            return _context.Expenses
+                .Include(e => e.ExpenseTypes);
         }
 
         // GET: api/Expenses/5
@@ -37,8 +38,10 @@ namespace capstoneapi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var expense = await _context.Expenses.FindAsync(id);
-
+            var expense = await _context.Expenses
+                                        .Include(e => e.ExpenseTypes)
+                                        .Where(e => e.Id == id)
+                                        .SingleAsync();
             if (expense == null)
             {
                 return NotFound();
@@ -56,11 +59,10 @@ namespace capstoneapi.Controllers
                 return BadRequest(ModelState);
             }
 
-            expense.Id = id;
-            //if (id != expense.Id)
-            //{
-            //    return BadRequest();
-            //}
+            if (id != expense.Id)
+            {
+                return BadRequest();
+            }
 
             _context.Entry(expense).State = EntityState.Modified;
 
