@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using capstoneapi.Data;
 using capstoneapi.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Cors;
 
 namespace capstoneapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CapstonePolicy")]
     public class ReportsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -27,7 +29,10 @@ namespace capstoneapi.Controllers
         public IEnumerable<Report> GetReports()
         {
             return _context.Reports
-                .Include(r => r.Expenses);
+                .Include(r => r.Expenses)
+                .ThenInclude(expense => expense.ExpenseTypes)
+                .Include(r => r.Employee);
+
 
             //var dbReports = _context.Reports
             //    .Include(r => r.Expenses);
@@ -47,6 +52,8 @@ namespace capstoneapi.Controllers
 
             var report = await _context.Reports
                             .Include(r => r.Expenses)
+                            .ThenInclude(expense => expense.ExpenseTypes)
+                            .Include(r => r.Employee)
                             .Where(r => r.Id == id)
                             .SingleAsync();
 

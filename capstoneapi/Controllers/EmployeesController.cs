@@ -15,8 +15,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace capstoneapi.Controllers
 {
-    public class EmployeesController
-    {
 
         [Route("/api/token")]
         [ApiController]
@@ -89,7 +87,8 @@ namespace capstoneapi.Controllers
                             NormalizedEmail = postUser.Username.ToUpper(),
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            SecurityStamp = Guid.NewGuid().ToString("D")
+                            SecurityStamp = Guid.NewGuid().ToString("D"),
+                            DepartmentId = 1
                         };
                         var passwordHash = new PasswordHasher<Employee>();
                         user.PasswordHash = passwordHash.HashPassword(user, postUser.Password);
@@ -127,6 +126,6 @@ namespace capstoneapi.Controllers
 
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }
-        }
+        
     }
 }
