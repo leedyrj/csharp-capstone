@@ -29,9 +29,9 @@ namespace capstoneapi.Controllers
         public IEnumerable<Report> GetReports()
         {
             return _context.Reports
+                .Include(r => r.Employee)
                 .Include(r => r.Expenses)
-                .ThenInclude(expense => expense.ExpenseTypes)
-                .Include(r => r.Employee);
+                .ThenInclude(expense => expense.ExpenseTypes);
 
 
             //var dbReports = _context.Reports
