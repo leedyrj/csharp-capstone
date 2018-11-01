@@ -27,7 +27,7 @@ export default class AllReportsView extends Component {
         return (
             <React.Fragment>
                 <Box>
-                    <Button variant="contained" color="primary" onClick={console.log(this.state.reports)}>Create Report</Button>
+                    <Button variant="contained" color="primary" onClick={this.props.createReport}>Create Report</Button>
                 </Box>
                 <Box>
                     {/* <ul>
