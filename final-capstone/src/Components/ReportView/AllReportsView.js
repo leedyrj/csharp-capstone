@@ -2,6 +2,7 @@ import { Route } from 'react-router-dom';
 import React, { Component } from "react";
 import { Box, Card, Content, Title } from 'bloomer';
 import Button from '@material-ui/core/Button';
+import APImanager from '../APImanager'
 
 
 export default class AllReportsView extends Component {
@@ -11,20 +12,27 @@ export default class AllReportsView extends Component {
     }
 
     componentDidMount() {
-        return fetch("https://localhost:5000/api/reports", {
-            "method": "GET",
-            "headers": {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
-            },
-        })
-            .then(a => a.json())
+        APImanager.getAllReports()
             .then((reports) => {
                 console.log("reports", reports)
                 this.setState({
                     reports: reports
                 })
             })
+        // return fetch("https://localhost:5000/api/reports", {
+        //     "method": "GET",
+        //     "headers": {
+        //         "Content-Type": "application/json",
+        //         "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
+        //     },
+        // })
+        //     .then(a => a.json())
+        //     .then((reports) => {
+        //         console.log("reports", reports)
+        //         this.setState({
+        //             reports: reports
+        //         })
+        //     })
     }
 
     render() {
