@@ -92,7 +92,6 @@ namespace capstoneapi.Migrations
                     Discriminator = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
                     DepartmentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -200,7 +199,7 @@ namespace capstoneapi.Migrations
                     SubmittedDate = table.Column<DateTime>(nullable: false),
                     Submitted = table.Column<bool>(nullable: false),
                     Purpose = table.Column<string>(nullable: false),
-                    EmployeeId = table.Column<string>(nullable: false)
+                    EmployeeId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -210,7 +209,7 @@ namespace capstoneapi.Migrations
                         column: x => x.EmployeeId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

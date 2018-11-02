@@ -28,10 +28,9 @@ export default class Home extends Component {
             "method": "POST",
             "headers": {
                 "Content-Type": "application/json",
-                // "Authorization": `Bearer ${localStorage.getItem("jukebox_token")}`
+                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
             },
             "body": JSON.stringify({
-                "employeeId": "06bd1516-2457-4f2c-b2f6-98637f946401",
                 "purpose": this.state.purpose
             })
         })
