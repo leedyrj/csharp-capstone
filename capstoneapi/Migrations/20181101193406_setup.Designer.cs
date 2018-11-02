@@ -10,8 +10,8 @@ using capstoneapi.Data;
 namespace capstoneapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181029162845_add-emps-2")]
-    partial class addemps2
+    [Migration("20181101193406_setup")]
+    partial class setup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,8 +105,7 @@ namespace capstoneapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired();
+                    b.Property<string>("EmployeeId");
 
                     b.Property<string>("Purpose")
                         .IsRequired();
@@ -309,13 +308,6 @@ namespace capstoneapi.Migrations
                     b.ToTable("Employee");
 
                     b.HasDiscriminator().HasValue("Employee");
-
-                    b.HasData(
-                        new { Id = "06bd1516-2457-4f2c-b2f6-98637f946401", AccessFailedCount = 0, ConcurrencyStamp = "78cfd654-9588-48d8-a4e2-f2f5d24185cf", Email = "r@leedy.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "R@LEEDY.COM", NormalizedUserName = "RLEEDY", PasswordHash = "AQAAAAEAACcQAAAAELwejCjlli2NCTcbfz6tPa8x6rpNFUDrImE67UkqTPbOubdm+PZw9fRGDRLgjtPLWA==", PhoneNumberConfirmed = false, SecurityStamp = "7f9a8046-ab3d-49cb-b204-1c82a62941e3", TwoFactorEnabled = false, UserName = "rleedy", DepartmentId = 1, FirstName = "Robert", LastName = "Leedy" },
-                        new { Id = "7b72a9ff-d7f0-4f8a-9aca-5f7edd0cae98", AccessFailedCount = 0, ConcurrencyStamp = "a8c7e0e4-a339-4686-8a75-1a567a79640e", Email = "w@kimball.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "W@KIMBALL.COM", NormalizedUserName = "WKIMBALL", PasswordHash = "AQAAAAEAACcQAAAAEHuPmYknduWdr5u28t2LxX/du85/+jyNjVMbTbMCldVFEEcXxxN+rGEznSWtRUEw8Q==", PhoneNumberConfirmed = false, SecurityStamp = "f8287642-ce9c-4049-a488-04c62ec7b303", TwoFactorEnabled = false, UserName = "wkimball", DepartmentId = 2, FirstName = "William", LastName = "Kimball" },
-                        new { Id = "8dbda5e5-4f99-4142-b7e8-57c1c1632b49", AccessFailedCount = 0, ConcurrencyStamp = "7dda8e85-2ae6-43fe-a643-167dc0d2d6a9", Email = "n@cox.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "N@COX.COM", NormalizedUserName = "NCOX", PasswordHash = "AQAAAAEAACcQAAAAEMnB8ygCofcgF5qgQM3jou9E4koMOK2FdTPLHMC43J3580d1c+A8wbXql/6oRwlfXA==", PhoneNumberConfirmed = false, SecurityStamp = "944df322-996a-4cdd-a823-380270751d17", TwoFactorEnabled = false, UserName = "ncox", DepartmentId = 3, FirstName = "Natasha", LastName = "Cox" },
-                        new { Id = "2c4573a3-49d3-4df9-9be3-8effbf58e2f1", AccessFailedCount = 0, ConcurrencyStamp = "46509479-ad19-40c2-9628-9f78520271a7", Email = "l@gwin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "L@GWIN.COM", NormalizedUserName = "LGWIN", PasswordHash = "AQAAAAEAACcQAAAAEOXhEZC/hDD23CTQFxivxCuQXPVEzn7kZNLNk/Vdc4opeb3JnqQkwVODtNQ2e6Yzhw==", PhoneNumberConfirmed = false, SecurityStamp = "70735862-aa5c-4958-85a3-40e618a2b448", TwoFactorEnabled = false, UserName = "lgwin", DepartmentId = 4, FirstName = "Leah", LastName = "Gwin" }
-                    );
                 });
 
             modelBuilder.Entity("capstoneapi.Models.Expense", b =>
@@ -343,8 +335,7 @@ namespace capstoneapi.Migrations
                 {
                     b.HasOne("capstoneapi.Models.Employee", "Employee")
                         .WithMany("Reports")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EmployeeId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

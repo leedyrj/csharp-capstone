@@ -9,6 +9,7 @@ using capstoneapi.Data;
 using capstoneapi.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace capstoneapi.Controllers
 {
@@ -26,12 +27,16 @@ namespace capstoneapi.Controllers
 
         // GET: api/Reports
         [HttpGet]
+        [Authorize]
         public IEnumerable<Report> GetReports()
         {
+            var user = _context.Employees.SingleOrDefault(u => u.UserName == User.Identity.Name);
+
             return _context.Reports
                 .Include(r => r.Employee)
                 .Include(r => r.Expenses)
-                .ThenInclude(expense => expense.ExpenseTypes);
+                .ThenInclude(expense => expense.ExpenseTypes)
+                .Where(r => r.Employee.Id == user.Id);
 
 
             //var dbReports = _context.Reports
@@ -43,8 +48,11 @@ namespace capstoneapi.Controllers
 
         // GET: api/Reports/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetReport([FromRoute] int id)
         {
+            var user = _context.Employees.SingleOrDefault(u => u.UserName == User.Identity.Name);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -55,6 +63,7 @@ namespace capstoneapi.Controllers
                             .ThenInclude(expense => expense.ExpenseTypes)
                             .Include(r => r.Employee)
                             .Where(r => r.Id == id)
+                            .Where(r => r.Employee == user)
                             .SingleAsync();
 
             if (report == null)
@@ -102,14 +111,18 @@ namespace capstoneapi.Controllers
 
         // POST: api/Reports
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostReport([FromBody] Report report)
         {
+            var user = _context.Employees.SingleOrDefault(u => u.UserName == User.Identity.Name);
+
             Console.WriteLine("test");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            report.EmployeeId = user.Id;
             _context.Reports.Add(report);
             await _context.SaveChangesAsync();
 
