@@ -11,6 +11,14 @@ export default class AllReportsView extends Component {
         reports: []
     }
 
+    // getOneReport = (e) => {
+    //     let id = e.target.id;
+    //     console.log("click", id)
+    //     APImanager.getOneReport(id)
+    //         .then((report => {
+    //         }))
+    // }
+
     componentDidMount() {
         APImanager.getAllReports()
             .then((reports) => {
@@ -47,9 +55,9 @@ export default class AllReportsView extends Component {
                         {this.state.reports.map(report => {
                             if (report.submitted === false) {
                                 return (
-                                    <Card>
+                                    <Card onClick={this.props.getOneReport}>
                                         <Content>
-                                            <li>{report.purpose}</li>
+                                            <li id={report.id}>{report.purpose}</li>
                                         </Content>
                                     </Card>
                                 )

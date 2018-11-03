@@ -4,11 +4,14 @@ import Navigation from './nav/navbar';
 import Report from './ReportView/ReportView';
 import AllReports from './ReportView/AllReportsView'
 import CreateReportForm from './Forms/CreateReportForm';
+import APImanager from './APImanager';
+import CreateExpenseForm from './Forms/CreateExpenseForm';
 
 export default class Home extends Component {
 
     state = {
-        pageState: "allReports"
+        pageState: "allReports",
+        oneReport: {}
     }
 
     createReport = () => {
@@ -36,11 +39,29 @@ export default class Home extends Component {
         })
             .then(a => a.json())
             .then(theNewReport => {
-                console.log("newreport", theNewReport)
+                this.setState({
+                    pageState: "oneReport",
+                    oneReport: theNewReport
+                })
             })
-            .then(this.setState({
-                pageState: "oneReport"
+    }
+
+    getOneReport = (e) => {
+        let id = e.target.id;
+        console.log("click", id)
+        APImanager.getOneReport(id)
+            .then((report => {
+                this.setState({
+                    pageState: "oneReport",
+                    oneReport: report
+                })
             }))
+    }
+
+    createExpense = () => {
+        this.setState({
+            pageState: "CreateExpenseForm"
+        })
     }
 
     render() {
@@ -50,6 +71,7 @@ export default class Home extends Component {
                     <Navigation />
                     <AllReports
                         createReport={this.createReport}
+                        getOneReport={this.getOneReport}
                     />
                 </React.Fragment>
             )
@@ -69,7 +91,21 @@ export default class Home extends Component {
             return (
                 <React.Fragment>
                     <Navigation />
-                    <Report />
+                    <Report
+                        oneReport={this.state.oneReport}
+                        createExpense={this.createExpense}
+                    />
+                </React.Fragment>
+            )
+        }
+        else if (this.state.pageState === "CreateExpenseForm") {
+            return (
+                <React.Fragment>
+                    <Navigation />
+                    <CreateExpenseForm
+                        handleFieldChange={this.handleFieldChange}
+                        oneReport={this.state.oneReport}
+                    />
                 </React.Fragment>
             )
         }
