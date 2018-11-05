@@ -52,6 +52,7 @@ export default class Home extends Component {
         let id = this.state.oneReport.id
         console.log(this.state.oneReport.purpose)
         let body = {
+            "id": this.state.oneReport.id,
             "purpose": this.state.oneReport.purpose,
             "submitted": true,
             "submittedDate": date
@@ -77,29 +78,16 @@ export default class Home extends Component {
             }))
     }
 
-    postExpense = () => {
-        let body = {
-            "reportId": this.state.reportId,
-            "description": this.state.description,
-            "amount": this.state.amount,
-            "expenseDate": this.state.expenseDate,
-            "location": this.state.location,
-            "expenseTypeId": this.state.expenseTypeId
-        }
+    getUpdatedReport = (e) => {
         let id = this.state.oneReport.id
-        console.log("bodybeforeapi", body)
-        APImanager.postExpense(body)
-            .then((addedReport) => {
-                console.log("addedreport", addedReport)
-                // alert("Successfully saved expense!")
-            }).then(APImanager.getOneReport(id))
-            .then(updatedReport => {
-                console.log(updatedReport)
+        // console.log("id", id)
+        APImanager.getOneReport(id)
+            .then((report => {
                 this.setState({
                     pageState: "oneReport",
-                    oneReport: updatedReport
+                    oneReport: report
                 })
-            })
+            }))
     }
 
     createExpense = () => {
@@ -150,7 +138,7 @@ export default class Home extends Component {
                     <CreateExpenseForm
                         handleFieldChange={this.handleFieldChange}
                         oneReport={this.state.oneReport}
-                        postExpense={this.postExpense}
+                        getUpdatedReport={this.getUpdatedReport}
                     />
                 </React.Fragment>
             )

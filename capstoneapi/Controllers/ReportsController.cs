@@ -79,6 +79,8 @@ namespace capstoneapi.Controllers
         [Authorize]
         public async Task<IActionResult> PutReport([FromRoute] int id, [FromBody] Report report)
         {
+            var user = _context.Employees.SingleOrDefault(u => u.UserName == User.Identity.Name);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -89,6 +91,7 @@ namespace capstoneapi.Controllers
                 return BadRequest();
             }
 
+            report.EmployeeId = user.Id;
             _context.Entry(report).State = EntityState.Modified;
 
             try

@@ -36,6 +36,9 @@ export default class APImanager {
             )
         })
             .then(res => res.json())
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     static getReportExpneses = (id) => {
@@ -64,17 +67,16 @@ export default class APImanager {
             .then(res => {
                 console.log("response in post", res)
                 return res.json();
-            }).catch(error => {
-                console.log(error)
             })
     }
 
     static deleteExpense = (id) => {
-        return fetch(`https://localhost:5000/api/expneses/${id}`, {
+        return fetch(`https://localhost:5000/api/expenses/${id}`, {
             "method": "DELETE",
             "headers": {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
+                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`,
+                "Accept": "application/json"
             },
         })
             .then(res => res.json())

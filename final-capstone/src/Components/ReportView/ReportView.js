@@ -42,7 +42,7 @@ export default class ReportView extends Component {
     };
 
     deleteExpense = (e) => {
-        let id = e.currrentTarget.id
+        let id = e.currentTarget.id
         console.log("click", id)
         APImanager.deleteExpense(id)
             .then(deletedExpense => {

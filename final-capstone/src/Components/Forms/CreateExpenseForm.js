@@ -62,23 +62,25 @@ export default class CreateExpenseForm extends Component {
             })
     }
 
-    // postExpense = () => {
-    //     let body = {
-    //         "reportId": this.state.reportId,
-    //         "description": this.state.description,
-    //         "amount": this.state.amount,
-    //         "expenseDate": this.state.expenseDate,
-    //         "location": this.state.location,
-    //         "expenseTypeId": this.state.expenseTypeId
-    //     }
-    //     console.log("bodybeforeapi", body)
-    //     APImanager.postExpense(body)
-    //         .then((addedReport) => {
-    //             console.log("body", body)
-    //             console.log("addedreport", addedReport)
-    //             // alert("Successfully saved expense!")
-    //         })
-    // }
+    postExpense = () => {
+        let body = {
+            "reportId": this.state.reportId,
+            "description": this.state.description,
+            "amount": this.state.amount,
+            "expenseDate": this.state.expenseDate,
+            "location": this.state.location,
+            "expenseTypeId": this.state.expenseTypeId
+        }
+        let id = this.props.oneReport.id
+        console.log("bodybeforeapi", body)
+        APImanager.postExpense(body)
+            .then((addedReport) => {
+                // console.log("body", body)
+                // console.log("addedreport", addedReport)
+                alert("Successfully saved expense!")
+                this.props.getUpdatedReport()
+            })
+    }
 
     render() {
         return (
@@ -130,7 +132,7 @@ export default class CreateExpenseForm extends Component {
                         })}
                     </Select>
 
-                    <Button variant="contained" color="primary" onClick={this.props.postExpense}>+</Button>
+                    <Button variant="contained" color="primary" onClick={this.postExpense} id={this.props.oneReport.id}>+</Button>
                 </form>
             </React.Fragment>
         )
