@@ -46,7 +46,7 @@ export default class CreateReportForm extends Component {
                     <TextField
                         id="purpose"
                         label="Destination/Purpose"
-                        value={this.state.name}
+                        // value={this.state.name}
                         onChange={this.props.handleFieldChange}
                         margin="normal"
                     />

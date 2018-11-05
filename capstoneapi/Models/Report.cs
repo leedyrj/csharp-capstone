@@ -18,7 +18,7 @@ namespace capstoneapi.Models
         public bool Submitted { get; set; }
 
         [Required]
-        [Display(Name = "Destination/Purpose")]
+        //[Display(Name = "Destination/Purpose")]
         public string Purpose { get; set; }
 
         public string EmployeeId { get; set; }

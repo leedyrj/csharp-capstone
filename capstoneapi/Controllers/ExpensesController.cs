@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using capstoneapi.Data;
 using capstoneapi.Models;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace capstoneapi.Controllers
 {
@@ -25,14 +26,20 @@ namespace capstoneapi.Controllers
 
         // GET: api/Expenses
         [HttpGet]
+        [Authorize]
         public IEnumerable<Expense> GetExpenses()
         {
+            var user = _context.Employees.SingleOrDefault(u => u.UserName == User.Identity.Name);
+            //var report = _context.Expenses.SingleOrDefault(r => r.Report.Id == r.ReportId);
+
             return _context.Expenses
                 .Include(e => e.ExpenseTypes);
+                //.Where(e => e.Report.Id == report.Id);
         }
 
         // GET: api/Expenses/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetExpense([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -54,6 +61,7 @@ namespace capstoneapi.Controllers
 
         // PUT: api/Expenses/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutExpense([FromRoute] int id, [FromBody] Expense expense)
         {
             if (!ModelState.IsValid)
@@ -89,6 +97,7 @@ namespace capstoneapi.Controllers
 
         // POST: api/Expenses
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostExpense([FromBody] Expense expense)
         {
             if (!ModelState.IsValid)
@@ -104,6 +113,7 @@ namespace capstoneapi.Controllers
 
         // DELETE: api/Expenses/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteExpense([FromRoute] int id)
         {
             if (!ModelState.IsValid)
