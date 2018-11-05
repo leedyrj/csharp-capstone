@@ -74,40 +74,41 @@ namespace capstoneapi.Controllers
             return Ok(report);
         }
 
-        // PUT: api/Reports/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutReport([FromRoute] int id, [FromBody] Report report)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        //PUT: api/Reports/5
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<IActionResult> PutReport([FromRoute] int id, [FromBody] Report report)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    if (id != report.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+            if (id != report.Id)
+            {
+                return BadRequest();
+            }
 
-        //    _context.Entry(report).State = EntityState.Modified;
+            _context.Entry(report).State = EntityState.Modified;
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ReportExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ReportExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
 
         // POST: api/Reports
         [HttpPost]
@@ -130,29 +131,29 @@ namespace capstoneapi.Controllers
         }
 
         // DELETE: api/Reports/5
-    //    [HttpDelete("{id}")]
-    //    public async Task<IActionResult> DeleteReport([FromRoute] int id)
-    //    {
-    //        if (!ModelState.IsValid)
-    //        {
-    //            return BadRequest(ModelState);
-    //        }
+        //    [HttpDelete("{id}")]
+        //    public async Task<IActionResult> DeleteReport([FromRoute] int id)
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            return BadRequest(ModelState);
+        //        }
 
-    //        var report = await _context.Reports.FindAsync(id);
-    //        if (report == null)
-    //        {
-    //            return NotFound();
-    //        }
+        //        var report = await _context.Reports.FindAsync(id);
+        //        if (report == null)
+        //        {
+        //            return NotFound();
+        //        }
 
-    //        _context.Reports.Remove(report);
-    //        await _context.SaveChangesAsync();
+        //        _context.Reports.Remove(report);
+        //        await _context.SaveChangesAsync();
 
-    //        return Ok(report);
-    //    }
+        //        return Ok(report);
+        //    }
 
-    //    private bool ReportExists(int id)
-    //    {
-    //        return _context.Reports.Any(e => e.Id == id);
-    //    }
+        private bool ReportExists(int id)
+        {
+            return _context.Reports.Any(e => e.Id == id);
+        }
     }
 }

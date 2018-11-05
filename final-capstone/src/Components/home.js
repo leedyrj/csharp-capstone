@@ -46,6 +46,25 @@ export default class Home extends Component {
             })
     }
 
+    putReport = () => {
+        var today = new Date(),
+            date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        let id = this.state.oneReport.id
+        console.log(this.state.oneReport.purpose)
+        let body = {
+            "purpose": this.state.oneReport.purpose,
+            "submitted": true,
+            "submittedDate": date
+        }
+        APImanager.putReport(id, body)
+            .then(submittedReport => {
+                console.log(submittedReport)
+                this.setState({
+                    pageState: "allReports"
+                })
+            })
+    }
+
     getOneReport = (e) => {
         let id = e.target.id;
         console.log("click", id)
@@ -56,6 +75,31 @@ export default class Home extends Component {
                     oneReport: report
                 })
             }))
+    }
+
+    postExpense = () => {
+        let body = {
+            "reportId": this.state.reportId,
+            "description": this.state.description,
+            "amount": this.state.amount,
+            "expenseDate": this.state.expenseDate,
+            "location": this.state.location,
+            "expenseTypeId": this.state.expenseTypeId
+        }
+        let id = this.state.oneReport.id
+        console.log("bodybeforeapi", body)
+        APImanager.postExpense(body)
+            .then((addedReport) => {
+                console.log("addedreport", addedReport)
+                // alert("Successfully saved expense!")
+            }).then(APImanager.getOneReport(id))
+            .then(updatedReport => {
+                console.log(updatedReport)
+                this.setState({
+                    pageState: "oneReport",
+                    oneReport: updatedReport
+                })
+            })
     }
 
     createExpense = () => {
@@ -94,6 +138,7 @@ export default class Home extends Component {
                     <Report
                         oneReport={this.state.oneReport}
                         createExpense={this.createExpense}
+                        putReport={this.putReport}
                     />
                 </React.Fragment>
             )
@@ -105,6 +150,7 @@ export default class Home extends Component {
                     <CreateExpenseForm
                         handleFieldChange={this.handleFieldChange}
                         oneReport={this.state.oneReport}
+                        postExpense={this.postExpense}
                     />
                 </React.Fragment>
             )

@@ -18,7 +18,7 @@ export default class CreateExpenseForm extends Component {
         open: false,
         expenseTypes: [],
         description: "",
-        amount: "",
+        amount: 0,
         expenseDate: "",
         location: "",
         expenseTypeId: 0,
@@ -62,6 +62,24 @@ export default class CreateExpenseForm extends Component {
             })
     }
 
+    // postExpense = () => {
+    //     let body = {
+    //         "reportId": this.state.reportId,
+    //         "description": this.state.description,
+    //         "amount": this.state.amount,
+    //         "expenseDate": this.state.expenseDate,
+    //         "location": this.state.location,
+    //         "expenseTypeId": this.state.expenseTypeId
+    //     }
+    //     console.log("bodybeforeapi", body)
+    //     APImanager.postExpense(body)
+    //         .then((addedReport) => {
+    //             console.log("body", body)
+    //             console.log("addedreport", addedReport)
+    //             // alert("Successfully saved expense!")
+    //         })
+    // }
+
     render() {
         return (
             <React.Fragment>
@@ -69,7 +87,7 @@ export default class CreateExpenseForm extends Component {
                     <TextField
                         type="text"
                         id="description"
-                        label="Description of Expense"
+                        label="expense desciritpion"
                         onChange={this.handleFieldChange}
                         margin="normal"
                     />

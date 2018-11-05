@@ -24,23 +24,60 @@ export default class APImanager {
             .then(res => res.json())
     }
 
-    static postExpense = (id, description, amount, expenseDate, location, expenseTypeId) => {
-        return fetch('https://localhost:5000/api/expenses'), {
-            "method": "POST",
+    static putReport = (id, body) => {
+        return fetch(`https://localhost:5000/api/reports/${id}`, {
+            "method": "PUT",
             "headers": {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
             },
-            "body": JSON.stringify({
-                "description": description,
-                "amount": amount,
-                "expenseDate": expenseDate,
-                "expenseTypeId": expenseTypeId,
-                "location": location,
-                "reportid": id
+            "body": JSON.stringify(
+                body
+            )
+        })
+            .then(res => res.json())
+    }
+
+    static getReportExpneses = (id) => {
+        return fetch(`https://localhost:5000/api/expneses/${id}`, {
+            "method": "GET",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
+            },
+        })
+            .then(res => res.json())
+    }
+
+    static postExpense = (body) => {
+        // console.log("blah")
+        return fetch("https://localhost:5000/api/expenses", {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`, "Accept": "application/json"
+            },
+            "body": JSON.stringify(
+                body
+            )
+        })
+            .then(res => {
+                console.log("response in post", res)
+                return res.json();
+            }).catch(error => {
+                console.log(error)
             })
-                .then(res => res.json())
-        }
+    }
+
+    static deleteExpense = (id) => {
+        return fetch(`https://localhost:5000/api/expneses/${id}`, {
+            "method": "DELETE",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
+            },
+        })
+            .then(res => res.json())
     }
 
     static getExpenseTypes = () => {
