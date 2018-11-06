@@ -28,37 +28,46 @@ export default class AllReportsView extends Component {
             })
     }
 
-    addExpenses = () => {
-        let reports = this.state.reports
-        // let amounts = []
+    addExpenses = report => {
         let sum = 0
-        console.log(reports)
-        reports.forEach(report => {
-            if (report.expenses.length > 0) {
-                console.log("report", report.expenses)
-                let allExpenses = report.expenses
-                let amounts = []
-                allExpenses.forEach(expense => {
-                    amounts.push(expense.amount)
-                    // let sum = 0;
-                    // for (let i = 0; i < amounts.length; i++) {
-                    //     sum += amounts[i]
-                    // }
-                    // console.log("sum", sum)
-                });
-                console.log("amounts", amounts)
-                for (let i = 0; i < amounts.length; i++) {
-                    sum += amounts[i]
-                }
-                console.log("sum", sum)
+        console.log("report", report)
+        if (report.length > 0) {
+            let amounts = []
+            report.forEach(expense => {
+                amounts.push(expense.amount)
+            });
+            for (let i = 0; i < amounts.length; i++) {
+                sum += amounts[i]
             }
-        });
+            return sum
+        }
     }
+
+    // addExpenses = () => {
+    //     let reports = this.state.reports
+    //     console.log(reports)
+    //     reports.forEach(report => {
+    //         if (report.expenses.length > 0) {
+    //             console.log("report", report.expenses)
+    //             let allExpenses = report.expenses
+    //             let amounts = []
+    //             allExpenses.forEach(expense => {
+    //                 amounts.push(expense.amount)
+    //                 console.log("amounts", amounts)                    
+    //             });
+    //             let sum = 0;
+    //             for (let i = 0; i < amounts.length; i++) {
+    //                 sum += amounts[i]
+    //             }
+    //             console.log("sum", sum)
+    //         }
+    //     });
+    // }
 
     render() {
         return (
             <React.Fragment>
-                {this.addExpenses()}
+                {/* {this.addExpenses()} */}
                 <Box>
                     <Button variant="contained" color="primary" onClick={this.props.createReport}>Create Report</Button>
                 </Box>
@@ -68,9 +77,10 @@ export default class AllReportsView extends Component {
                         {this.state.reports.map(report => {
                             if (report.submitted === false) {
                                 return (
-                                    <Card onClick={this.props.getOneReport}>
+                                    <Card id={report.id} onClick={this.props.getOneReport}>
                                         <Content>
-                                            <li id={report.id}>{report.purpose}</li>
+                                            <li>{report.purpose}</li>
+                                            <p>{this.addExpenses(report.expenses)}</p>
                                         </Content>
                                     </Card>
                                 )
@@ -87,9 +97,7 @@ export default class AllReportsView extends Component {
                                     <Card>
                                         <Content>
                                             <li>{report.purpose}</li>
-                                        </Content>
-                                        <Content>
-
+                                            <p>{this.addExpenses(report.expenses)}</p>
                                         </Content>
                                     </Card>
                                 )
