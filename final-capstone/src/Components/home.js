@@ -91,7 +91,7 @@ export default class Home extends Component {
     }
 
     getOneReport = (e) => {
-        let id = e.target.id;
+        let id = e.currentTarget.id;
         console.log("click", id)
         APImanager.getOneReport(id)
             .then((report => {
