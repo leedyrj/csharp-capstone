@@ -33,8 +33,9 @@ namespace capstoneapi.Controllers
             //var report = _context.Expenses.SingleOrDefault(r => r.Report.Id == r.ReportId);
 
             return _context.Expenses
-                .Include(e => e.ExpenseTypes);
-                //.Where(e => e.Report.Id == report.Id);
+                .Include(e => e.ExpenseTypes)
+                .OrderByDescending(e => e.ExpenseDate);
+            //.Where(e => e.Report.Id == report.Id);
         }
 
         // GET: api/Expenses/5
@@ -50,6 +51,7 @@ namespace capstoneapi.Controllers
             var expense = await _context.Expenses
                                         .Include(e => e.ExpenseTypes)
                                         .Where(e => e.Id == id)
+                                        .OrderByDescending(e => e.ExpenseDate)
                                         .SingleAsync();
             if (expense == null)
             {

@@ -57,14 +57,19 @@ namespace capstoneapi.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var expenses = await _context.Expenses
+                            .Where(e => e.ReportId == id)
+                            .Include(expense => expense.ExpenseTypes)
+                            .OrderByDescending(e => e.ExpenseDate)
+                            .ToListAsync();
 
             var report = await _context.Reports
-                            .Include(r => r.Expenses)
-                            .ThenInclude(expense => expense.ExpenseTypes)
                             .Include(r => r.Employee)
                             .Where(r => r.Id == id)
                             .Where(r => r.Employee == user)
                             .SingleAsync();
+
+            report.Expenses = expenses;
 
             if (report == null)
             {

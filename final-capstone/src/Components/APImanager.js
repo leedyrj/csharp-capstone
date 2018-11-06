@@ -52,6 +52,17 @@ export default class APImanager {
             .then(res => res.json())
     }
 
+    static getOneExpense = (id) => {
+        return fetch(`https://localhost:5000/api/expenses/${id}`, {
+            "method": "GET",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
+            },
+        })
+            .then(res => res.json())
+    }
+
     static postExpense = (body) => {
         // console.log("blah")
         return fetch("https://localhost:5000/api/expenses", {
@@ -67,6 +78,23 @@ export default class APImanager {
             .then(res => {
                 console.log("response in post", res)
                 return res.json();
+            })
+    }
+
+    static putExpense = (id, body) => {
+        return fetch(`https://localhost:5000/api/expenses/${id}`, {
+            "method": "PUT",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
+            },
+            "body": JSON.stringify(
+                body
+            )
+        })
+            .then(res => res.json())
+            .catch(error => {
+                console.log(error)
             })
     }
 

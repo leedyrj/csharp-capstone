@@ -22,30 +22,43 @@ export default class AllReportsView extends Component {
     componentDidMount() {
         APImanager.getAllReports()
             .then((reports) => {
-                console.log("reports", reports)
                 this.setState({
                     reports: reports
                 })
             })
-        // return fetch("https://localhost:5000/api/reports", {
-        //     "method": "GET",
-        //     "headers": {
-        //         "Content-Type": "application/json",
-        //         "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`
-        //     },
-        // })
-        //     .then(a => a.json())
-        //     .then((reports) => {
-        //         console.log("reports", reports)
-        //         this.setState({
-        //             reports: reports
-        //         })
-        //     })
+    }
+
+    addExpenses = () => {
+        let reports = this.state.reports
+        // let amounts = []
+        let sum = 0
+        console.log(reports)
+        reports.forEach(report => {
+            if (report.expenses.length > 0) {
+                console.log("report", report.expenses)
+                let allExpenses = report.expenses
+                let amounts = []
+                allExpenses.forEach(expense => {
+                    amounts.push(expense.amount)
+                    // let sum = 0;
+                    // for (let i = 0; i < amounts.length; i++) {
+                    //     sum += amounts[i]
+                    // }
+                    // console.log("sum", sum)
+                });
+                console.log("amounts", amounts)
+                for (let i = 0; i < amounts.length; i++) {
+                    sum += amounts[i]
+                }
+                console.log("sum", sum)
+            }
+        });
     }
 
     render() {
         return (
             <React.Fragment>
+                {this.addExpenses()}
                 <Box>
                     <Button variant="contained" color="primary" onClick={this.props.createReport}>Create Report</Button>
                 </Box>
@@ -74,6 +87,9 @@ export default class AllReportsView extends Component {
                                     <Card>
                                         <Content>
                                             <li>{report.purpose}</li>
+                                        </Content>
+                                        <Content>
+
                                         </Content>
                                     </Card>
                                 )

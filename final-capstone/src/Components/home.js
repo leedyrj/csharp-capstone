@@ -6,12 +6,14 @@ import AllReports from './ReportView/AllReportsView'
 import CreateReportForm from './Forms/CreateReportForm';
 import APImanager from './APImanager';
 import CreateExpenseForm from './Forms/CreateExpenseForm';
+import EditExpenseForm from './Forms/EditExpenseForm';
 
 export default class Home extends Component {
 
     state = {
         pageState: "allReports",
-        oneReport: {}
+        oneReport: {},
+        expenseToEdit: []
     }
 
     createReport = () => {
@@ -46,6 +48,28 @@ export default class Home extends Component {
             })
     }
 
+    // putExpense = () => {
+    //     let body = {
+    //         "reportId": this.state.reportId,
+    //         "description": this.state.description,
+    //         "amount": this.state.amount,
+    //         "expenseDate": this.state.expenseDate,
+    //         "location": this.state.location,
+    //         "expenseTypeId": this.state.expenseTypeId
+    //     }
+    //     let id = this.state.oneReport.id
+    //     console.log("bodybeforeapi", body)
+    //     APImanager.postExpense(id, body)
+    //         .then((addedReport) => {
+    //             // console.log("body", body)
+    //             // console.log("addedreport", addedReport)
+    //             this.getUpdatedReport()
+    //                 .then(updatedExpense => {
+    //                     console.log(updatedExpense)
+    //                 })
+    //         })
+    // }
+
     putReport = () => {
         var today = new Date(),
             date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -78,8 +102,18 @@ export default class Home extends Component {
             }))
     }
 
-    getUpdatedReport = (e) => {
-        let id = this.state.oneReport.id
+    getOneExpense = (e) => {
+        let id = e.currentTarget.id
+        APImanager.getOneExpense(id)
+            .then((expense => {
+                this.setState({
+                    pageState: "EditExpenseForm",
+                    expenseToEdit: expense
+                })
+            }))
+    }
+
+    getUpdatedReport = (id) => {
         // console.log("id", id)
         APImanager.getOneReport(id)
             .then((report => {
@@ -127,6 +161,9 @@ export default class Home extends Component {
                         oneReport={this.state.oneReport}
                         createExpense={this.createExpense}
                         putReport={this.putReport}
+                        getOneExpense={this.getOneExpense}
+                        getUpdatedReport={this.getUpdatedReport}
+
                     />
                 </React.Fragment>
             )
@@ -139,6 +176,21 @@ export default class Home extends Component {
                         handleFieldChange={this.handleFieldChange}
                         oneReport={this.state.oneReport}
                         getUpdatedReport={this.getUpdatedReport}
+                        getOneReport={this.getOneReport}
+                    />
+                </React.Fragment>
+            )
+        }
+        else if (this.state.pageState === "EditExpenseForm") {
+            return (
+                <React.Fragment>
+                    <Navigation />
+                    <EditExpenseForm
+                        handleFieldChange={this.handleFieldChange}
+                        oneReport={this.state.oneReport}
+                        getUpdatedReport={this.getUpdatedReport}
+                        expenseToEdit={this.state.expenseToEdit}
+                        putExpense={this.putExpense}
                     />
                 </React.Fragment>
             )
