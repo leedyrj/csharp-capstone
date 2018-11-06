@@ -32,8 +32,15 @@ export default class ReportView extends Component {
 
     state = {
         currentReport: "",
-        expanded: null
+        expanded: null,
+        expenseToEdit: []
     }
+
+    // componentWillMount() {
+    //     this.setState({
+    //         currentReport: this.props.oneReport
+    //     })
+    // }
 
     handleChange = panel => (event, expanded) => {
         this.setState({
@@ -43,10 +50,11 @@ export default class ReportView extends Component {
 
     deleteExpense = (e) => {
         let id = e.currentTarget.id
+        let repId = this.props.oneReport.id
         console.log("click", id)
         APImanager.deleteExpense(id)
             .then(deletedExpense => {
-                console.log(deletedExpense)
+                this.props.getUpdatedReport(repId)
             })
     }
 
@@ -130,7 +138,7 @@ export default class ReportView extends Component {
                                         {expense.location}
                                     </Typography>
                                     <div>
-                                        <Button variant="contained" color="primary">Edit Expense</Button>
+                                        <Button variant="contained" color="primary" onClick={this.props.getOneExpense} id={expense.id}>Edit Expense</Button>
                                         <Button variant="contained" color="secondary" id={expense.id} onClick={this.deleteExpense}>Delete Expense</Button>
                                     </div>
                                 </ExpansionPanelDetails>

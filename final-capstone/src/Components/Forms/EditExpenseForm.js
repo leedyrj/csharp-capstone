@@ -12,17 +12,18 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import APImanager from '../APImanager'
 
-export default class CreateExpenseForm extends Component {
+export default class EditExpenseForm extends Component {
 
     state = {
         open: false,
         expenseTypes: [],
-        description: "",
-        amount: 0,
-        expenseDate: "",
-        location: "",
-        expenseTypeId: 0,
-        reportId: this.props.oneReport.id
+        description: this.props.expenseToEdit.description,
+        amount: this.props.expenseToEdit.amount,
+        expenseDate: this.props.expenseToEdit.expenseDate,
+        location: this.props.expenseToEdit.location,
+        expenseTypeId: this.props.expenseToEdit.expenseTypeId,
+        reportId: this.props.oneReport.id,
+        editedReport: []
     }
 
     handleFieldChange = (evt) => {
@@ -62,23 +63,23 @@ export default class CreateExpenseForm extends Component {
             })
     }
 
-    postExpense = () => {
+    putExpense = () => {
         let body = {
             "reportId": this.state.reportId,
             "description": this.state.description,
             "amount": this.state.amount,
             "expenseDate": this.state.expenseDate,
             "location": this.state.location,
-            "expenseTypeId": this.state.expenseTypeId
+            "expenseTypeId": this.state.expenseTypeId,
+            "id": this.props.expenseToEdit.id
         }
-        let id = this.state.reportId
+        let id = this.props.expenseToEdit.id
+        let repId = this.state.reportId
+        console.log("id", id)
         console.log("bodybeforeapi", body)
-        APImanager.postExpense(body)
-            .then((addedReport) => {
-                // console.log("body", body)
-                // console.log("addedreport", addedReport)
-                alert("Successfully saved expense!")
-                this.props.getUpdatedReport(id)
+        APImanager.putExpense(id, body)
+            .then((editedExpense) => {
+                this.props.getUpdatedReport(repId)
             })
     }
 
@@ -92,6 +93,7 @@ export default class CreateExpenseForm extends Component {
                         label="expense desciritpion"
                         onChange={this.handleFieldChange}
                         margin="normal"
+                        value={this.state.description}
                     />
 
                     <TextField
@@ -100,6 +102,7 @@ export default class CreateExpenseForm extends Component {
                         onChange={this.handleFieldChange}
                         margin="normal"
                         type="number"
+                        value={this.state.amount}
                     />
 
                     <TextField
@@ -108,6 +111,7 @@ export default class CreateExpenseForm extends Component {
                         onChange={this.handleFieldChange}
                         margin="normal"
                         type="text"
+                        value={this.state.location}
                     />
 
                     <TextField
@@ -116,6 +120,7 @@ export default class CreateExpenseForm extends Component {
                         onChange={this.handleFieldChange}
                         margin="normal"
                         type="date"
+                        value={this.state.expenseDate}
                     />
 
                     <InputLabel htmlFor="demo-controlled-open-select">Expense Type</InputLabel>
@@ -123,7 +128,7 @@ export default class CreateExpenseForm extends Component {
                         open={this.state.open}
                         onClose={this.handleClose}
                         onOpen={this.handleOpen}
-                        value={this.state.age}
+                        value={this.state.expenseTypeId}
                         onChange={this.handleChange}
                         name="expenseTypeId"
                     >
@@ -132,7 +137,7 @@ export default class CreateExpenseForm extends Component {
                         })}
                     </Select>
 
-                    <Button variant="contained" color="primary" onClick={this.postExpense} id={this.props.oneReport.id}>+</Button>
+                    <Button variant="contained" color="primary" onClick={this.putExpense} id={this.props.oneReport.id}>+</Button>
                 </form>
             </React.Fragment>
         )
