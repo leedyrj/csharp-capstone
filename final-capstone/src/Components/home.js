@@ -16,6 +16,12 @@ export default class Home extends Component {
         expenseToEdit: []
     }
 
+    goHome = () => {
+        this.setState({
+            pageState: "allReports"
+        })
+    }
+
     createReport = () => {
         this.setState({
             pageState: "CreateReportForm"
@@ -134,7 +140,9 @@ export default class Home extends Component {
         if (this.state.pageState === "allReports") {
             return (
                 <React.Fragment>
-                    <Navigation />
+                    <Navigation
+                        goHome={this.goHome}
+                    />
                     <AllReports
                         createReport={this.createReport}
                         getOneReport={this.getOneReport}
@@ -145,7 +153,9 @@ export default class Home extends Component {
         else if (this.state.pageState === "CreateReportForm") {
             return (
                 <React.Fragment>
-                    <Navigation />
+                    <Navigation
+                        goHome={this.goHome}
+                    />
                     <CreateReportForm
                         postReport={this.postReport}
                         handleFieldChange={this.handleFieldChange}
@@ -156,7 +166,9 @@ export default class Home extends Component {
         else if (this.state.pageState === "oneReport") {
             return (
                 <React.Fragment>
-                    <Navigation />
+                    <Navigation
+                        goHome={this.goHome}
+                    />
                     <Report
                         oneReport={this.state.oneReport}
                         createExpense={this.createExpense}
@@ -171,7 +183,9 @@ export default class Home extends Component {
         else if (this.state.pageState === "CreateExpenseForm") {
             return (
                 <React.Fragment>
-                    <Navigation />
+                    <Navigation
+                        goHome={this.goHome}
+                    />
                     <CreateExpenseForm
                         handleFieldChange={this.handleFieldChange}
                         oneReport={this.state.oneReport}
@@ -184,7 +198,9 @@ export default class Home extends Component {
         else if (this.state.pageState === "EditExpenseForm") {
             return (
                 <React.Fragment>
-                    <Navigation />
+                    <Navigation
+                        goHome={this.goHome}
+                    />
                     <EditExpenseForm
                         handleFieldChange={this.handleFieldChange}
                         oneReport={this.state.oneReport}

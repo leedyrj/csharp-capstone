@@ -11,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import APImanager from '../APImanager'
+import AddPhoto from './AddPhoto'
 
 export default class CreateExpenseForm extends Component {
 
@@ -89,7 +90,7 @@ export default class CreateExpenseForm extends Component {
                     <TextField
                         type="text"
                         id="description"
-                        label="expense desciritpion"
+                        label="Description of Expense"
                         onChange={this.handleFieldChange}
                         margin="normal"
                     />
@@ -132,7 +133,9 @@ export default class CreateExpenseForm extends Component {
                         })}
                     </Select>
 
-                    <Button variant="contained" color="primary" onClick={this.postExpense} id={this.props.oneReport.id}>+</Button>
+                    <AddPhoto oneReport={this.props.oneReport} />
+
+                    <Button variant="contained" color="primary" onClick={this.postExpense} id={this.props.oneReport.id}>Save Expense</Button>
                 </form>
             </React.Fragment>
         )

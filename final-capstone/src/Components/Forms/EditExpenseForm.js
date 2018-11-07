@@ -10,7 +10,8 @@ import { Content } from 'bloomer/lib/elements/Content';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import APImanager from '../APImanager'
+import APImanager from '../APImanager';
+import AddPhoto from './AddPhoto'
 
 export default class EditExpenseForm extends Component {
 
@@ -136,6 +137,8 @@ export default class EditExpenseForm extends Component {
                             return <MenuItem value={expenseType.id} id={expenseType.id} >{expenseType.expenseTypeName}</MenuItem>
                         })}
                     </Select>
+
+                    <AddPhoto oneReport={this.props.oneReport} />
 
                     <Button variant="contained" color="primary" onClick={this.putExpense} id={this.props.oneReport.id}>+</Button>
                 </form>

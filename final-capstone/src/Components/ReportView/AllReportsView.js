@@ -72,34 +72,34 @@ export default class AllReportsView extends Component {
                     <Button variant="contained" color="primary" onClick={this.props.createReport}>Create Report</Button>
                 </Box>
                 <Box>
-                    <Title isSize={4}>Incomplete Reports</Title>
+                    <Title isSize={3}>Incomplete Reports</Title>
                     <ul>
                         {this.state.reports.map(report => {
                             if (report.submitted === false) {
                                 return (
-                                    <Card id={report.id} onClick={this.props.getOneReport}>
-                                        <Content>
-                                            <li>{report.purpose}</li>
-                                            <p>{this.addExpenses(report.expenses)}</p>
-                                        </Content>
-                                    </Card>
+                                    <Box id={report.id} onClick={this.props.getOneReport}>
+                                        <Title isSize={5}>Report:</Title>
+                                        <li>{report.purpose}</li>
+                                        <Title isSize={5}>Expense Total:</Title>
+                                        <p>${this.addExpenses(report.expenses)}</p>
+                                    </Box>
                                 )
                             }
                         })}
                     </ul>
                 </Box>
                 <Box>
-                    <Title isSize={4}>Completed Reports</Title>
+                    <Title isSize={3}>Completed Reports</Title>
                     <ul>
                         {this.state.reports.map(report => {
                             if (report.submitted === true) {
                                 return (
-                                    <Card>
-                                        <Content>
-                                            <li>{report.purpose}</li>
-                                            <p>{this.addExpenses(report.expenses)}</p>
-                                        </Content>
-                                    </Card>
+                                    <Box>
+                                        <Title isSize={5}>Report:</Title>
+                                        <li>{report.purpose}</li>
+                                        <Title isSize={5}>Expense Total:</Title>
+                                        <p>${this.addExpenses(report.expenses)}</p>
+                                    </Box>
                                 )
                             }
                         })}
