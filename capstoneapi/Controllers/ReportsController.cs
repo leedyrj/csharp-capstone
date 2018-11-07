@@ -60,6 +60,7 @@ namespace capstoneapi.Controllers
             var expenses = await _context.Expenses
                             .Where(e => e.ReportId == id)
                             .Include(expense => expense.ExpenseTypes)
+                            .Include(e => e.Photos)
                             .OrderByDescending(e => e.ExpenseDate)
                             .ToListAsync();
 

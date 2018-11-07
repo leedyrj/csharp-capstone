@@ -17,6 +17,7 @@ namespace capstoneapi.Models
         public string PhotoPath { get; set; }
 
         [Required]
+        public int ExpenseId { get; set; }
         public Expense Expense { get; set; }
     }
 }

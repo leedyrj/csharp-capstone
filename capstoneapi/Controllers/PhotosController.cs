@@ -93,11 +93,13 @@ namespace capstoneapi.Controllers
         [Authorize]
         public async Task<IActionResult> PostPhoto([FromBody] Photo photo)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+            //ModelState.Remove("photo.Expense");
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
+            var expense = await _context.Expenses.FindAsync(photo.ExpenseId);
+            photo.Expense = expense;
             _context.Photos.Add(photo);
             await _context.SaveChangesAsync();
 
