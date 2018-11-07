@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using capstoneapi.Data;
 using capstoneapi.Models;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace capstoneapi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CapstonePolicy")]
     public class PhotosController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +26,7 @@ namespace capstoneapi.Controllers
 
         // GET: api/Photos
         [HttpGet]
+        [Authorize]
         public IEnumerable<Photo> GetPhotos()
         {
             return _context.Photos;
@@ -30,6 +34,7 @@ namespace capstoneapi.Controllers
 
         // GET: api/Photos/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetPhoto([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -49,6 +54,7 @@ namespace capstoneapi.Controllers
 
         // PUT: api/Photos/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutPhoto([FromRoute] int id, [FromBody] Photo photo)
         {
             if (!ModelState.IsValid)
@@ -84,6 +90,7 @@ namespace capstoneapi.Controllers
 
         // POST: api/Photos
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostPhoto([FromBody] Photo photo)
         {
             if (!ModelState.IsValid)
@@ -99,6 +106,7 @@ namespace capstoneapi.Controllers
 
         // DELETE: api/Photos/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeletePhoto([FromRoute] int id)
         {
             if (!ModelState.IsValid)

@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 import React, { Component } from "react";
 import Navigation from '../nav/navbar';
-import { Box, Column, Columns, Title } from 'bloomer';
+import { Box, Column, Columns, Title, Card } from 'bloomer';
 import Button from '@material-ui/core/Button';
 import APImanager from '../APImanager';
 import PropTypes from 'prop-types';
@@ -111,7 +111,7 @@ export default class ReportView extends Component {
         } else {
             return (
                 <React.Fragment>
-                    <Title isSize={4}>
+                    <Title isSize={2}>
                         {this.props.oneReport.purpose}
                     </Title>
                     <Box>
@@ -119,29 +119,33 @@ export default class ReportView extends Component {
                         <Button variant="contained" color="secondary" onClick={this.props.putReport}>Submit Report</Button>
                     </Box>
                     {this.props.oneReport.expenses.map(expense => {
+                        console.log("date", expense.expenseDate)
                         return (
                             <ExpansionPanel>
                                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                    <Title>{expense.description}</Title>
+                                    <Title isSize={4}>{expense.description}</Title>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
-                                    <Typography>
+                                    <Box>
+                                        <Title isSize={5}>
+                                            Expense Amount
+                                        </Title>
                                         ${expense.amount}
-                                    </Typography>
-                                    <Typography>
-                                        {expense.expenseType}
-                                    </Typography>
-                                    <Typography>
-                                        {expense.expenseDate}
-                                    </Typography>
-                                    <Typography>
+                                        <Title isSize={5}>
+                                            Date of Expense
+                                        </Title>
+                                        {expense.expenseDate.substring(0, 10)}
+                                        <Title isSize={5}>
+                                            Location of Expense
+                                        </Title>
                                         {expense.location}
-                                    </Typography>
-                                    <div>
-                                        <Button variant="contained" color="primary" onClick={this.props.getOneExpense} id={expense.id}>Edit Expense</Button>
-                                        <Button variant="contained" color="secondary" id={expense.id} onClick={this.deleteExpense}>Delete Expense</Button>
-                                    </div>
+                                    </Box>
                                 </ExpansionPanelDetails>
+                                <div>
+                                    <Button variant="contained" color="primary" onClick={this.props.getOneExpense} id={expense.id}>Edit Expense</Button>
+                                    <Button variant="contained" color="secondary" id={expense.id} onClick={this.deleteExpense}>Delete Expense</Button>
+                                </div>
+
                             </ExpansionPanel>
                         )
                     })}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import 'bulma/css/bulma.css'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -8,7 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 
+
+library.add(faHome)
 
 const styles = {
     root: {
@@ -23,26 +28,25 @@ const styles = {
     },
 };
 
-function ButtonAppBar(props) {
-    const { classes } = props;
-    return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" color="inherit" className={classes.grow}>
-                        News
-            </Typography>
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
+export default class NavBar extends Component {
+    render() {
+        return (
+            <div>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton color="inherit" aria-label="Menu" onClick={this.props.goHome}>
+                            <FontAwesomeIcon icon={faHome} />
+                        </IconButton>
+                        <Typography variant="h6" color="inherit">
+                            TravelTrackr
+                    </Typography>
+                    </Toolbar>
+                </AppBar>
+            </div>
+        );
+    }
 }
 
-ButtonAppBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
-export default withStyles(styles)(ButtonAppBar);
+
+

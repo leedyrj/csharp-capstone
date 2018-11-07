@@ -123,5 +123,22 @@ export default class APImanager {
                 return res.json();
             })
     }
+
+    static postPhoto = (body) => {
+        return fetch("https://localhost:5000/api/photos", {
+            "method": "POST",
+            "headers": {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("capstone_token")}`, "Accept": "application/json"
+            },
+            "body": JSON.stringify(
+                body
+            )
+        })
+            .then(res => {
+                console.log("response in post", res)
+                return res.json();
+            })
+    }
 }
 
