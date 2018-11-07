@@ -111,7 +111,7 @@ export default class ReportView extends Component {
         } else {
             return (
                 <React.Fragment>
-                    <Title isSize={4}>
+                    <Title isSize={2}>
                         {this.props.oneReport.purpose}
                     </Title>
                     <Box>
@@ -123,7 +123,7 @@ export default class ReportView extends Component {
                         return (
                             <ExpansionPanel>
                                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                    <Title>{expense.description}</Title>
+                                    <Title isSize={4}>{expense.description}</Title>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <Box>

@@ -107,6 +107,25 @@ namespace capstoneapi.Controllers
                 return BadRequest(ModelState);
             }
 
+            //try
+            //{
+            //    // Adds the recipe to the database so it can get assigned a primary key
+            //    _context.Expenses.Add(expense);
+            //    await _context.SaveChangesAsync();
+
+            //    // Assigns the new recipe's primary key to each ingredient in the recipe and saves the ingredients
+            //    foreach (Photo photo in expense.Photos)
+            //    {
+            //        newIngredient.RecipeId = expense.Id;
+            //        _context.Photos.Add(photo);
+            //    }
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (Exception ex)
+            //{
+            //    // This is just here to handle the mysterious SQL exception that was being thrown for no reason
+            //}
+
             _context.Expenses.Add(expense);
             await _context.SaveChangesAsync();
 

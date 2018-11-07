@@ -6,12 +6,24 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 import { Content } from 'bloomer/lib/elements/Content';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import APImanager from '../APImanager'
-import AddPhoto from './AddPhoto'
+import APImanager from '../APImanager';
+import AddPhoto from './AddPhoto';
+import request from 'superagent';
+import Camera from '../Camera/camera'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCamera } from '@fortawesome/free-solid-svg-icons'
+
+
+library.add(faCamera)
+
+const cloudUpPreset = "TravelTrackr"
+const cloudUpAddr = "https://api.cloudinary.com/v1_1/dfntrj4nc/upload"
 
 export default class CreateExpenseForm extends Component {
 
@@ -23,7 +35,9 @@ export default class CreateExpenseForm extends Component {
         expenseDate: "",
         location: "",
         expenseTypeId: 0,
-        reportId: this.props.oneReport.id
+        reportId: this.props.oneReport.id,
+        selectedFile: null,
+        photoString: ""
     }
 
     handleFieldChange = (evt) => {
@@ -70,17 +84,61 @@ export default class CreateExpenseForm extends Component {
             "amount": this.state.amount,
             "expenseDate": this.state.expenseDate,
             "location": this.state.location,
-            "expenseTypeId": this.state.expenseTypeId
+            "expenseTypeId": this.state.expenseTypeId,
+        }
+
+        let photobody = {
+            "expense":
+            {
+                "reportId": this.state.reportId,
+                "description": this.state.description,
+                "amount": this.state.amount,
+                "expenseDate": this.state.expenseDate,
+                "location": this.state.location,
+                "expenseTypeId": this.state.expenseTypeId
+            },
+            "photoPath": this.state.photoString
         }
         let id = this.state.reportId
         console.log("bodybeforeapi", body)
         APImanager.postExpense(body)
-            .then((addedReport) => {
-                // console.log("body", body)
-                // console.log("addedreport", addedReport)
-                alert("Successfully saved expense!")
+            .then(res => {
+                APImanager.postPhoto(photobody)
+            }).then(res => {
                 this.props.getUpdatedReport(id)
             })
+        alert("Successfully saved expense!")
+    }
+
+    handleImageUpload(file) {
+        let upload = request.post(cloudUpAddr)
+            .field('upload_preset', cloudUpPreset)
+            .field('file', file);
+
+        upload.end((err, response) => {
+            if (err) {
+                console.error(err);
+            }
+
+            if (response.body.secure_url !== '') {
+                this.setState(({ photoString }) => ({
+                    photoString: (response.body.secure_url),
+                }))
+            }
+        });
+    }
+
+    fileSelectHandler = e => {
+        this.setState({
+            selectedFile: e.target.files[0]
+        })
+        console.log(e.target.files[0])
+    }
+
+    takePic = () => {
+        // <Camera
+        //     onTakePhoto={(dataUri) => { this.onTakePhoto(dataUri); }}
+        // />
     }
 
     render() {
@@ -133,7 +191,11 @@ export default class CreateExpenseForm extends Component {
                         })}
                     </Select>
 
-                    <AddPhoto oneReport={this.props.oneReport} />
+                    <React.Fragment>
+                        <Input type="file" onChange={this.fileSelectHandler} />
+                        <Button variant="contained" color="secondary" onClick={() => this.handleImageUpload(this.state.selectedFile)}>Save Photo</Button>
+                        <Button variant="contained" onClick={this.takePic}><FontAwesomeIcon icon={faCamera} /></Button>
+                    </React.Fragment>
 
                     <Button variant="contained" color="primary" onClick={this.postExpense} id={this.props.oneReport.id}>Save Expense</Button>
                 </form>

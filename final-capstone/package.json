@@ -11,12 +11,15 @@
     "axios": "^0.18.0",
     "bloomer": "^0.6.5",
     "bulma": "^0.7.2",
+    "cloudinary": "^1.11.0",
     "i": "^0.3.6",
     "npm": "^6.4.1",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
+    "react-html5-camera-photo": "^1.2.9",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.5",
+    "superagent": "^4.0.0-beta.5",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {
