@@ -145,10 +145,10 @@ namespace capstoneapi.Data
                         ExpenseTypeName = "Lodging"
                     },
 
-                    new Department
+                    new ExpenseType
                     {
                         Id = 3,
-                        DepartmentName = "Meals - Employees Only"
+                        ExpenseTypeName = "Meals - Employees Only"
                     },
 
                     new ExpenseType

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace capstoneapi.Migrations
 {
-    public partial class setup : Migration
+    public partial class newsetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -261,6 +261,46 @@ namespace capstoneapi.Migrations
                         principalTable: "Expenses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "Id", "Budget", "DepartmentName" },
+                values: new object[,]
+                {
+                    { 1, 50000, "Human Resources" },
+                    { 2, 50000, "Sales" },
+                    { 3, 50000, "Information Technology" },
+                    { 4, 50000, "Marketing" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ExpenseTypes",
+                columns: new[] { "Id", "ExpenseTypeName" },
+                values: new object[,]
+                {
+                    { 1, "Mileage" },
+                    { 2, "Lodging" },
+                    { 3, "Meals - Employees Only" },
+                    { 4, "Meals - Client/Guest" },
+                    { 5, "Fuel" },
+                    { 6, "Travel - Transportation" },
+                    { 7, "Supplies" },
+                    { 8, "Travel - Misc" },
+                    { 9, "Registration Fees" },
+                    { 10, "Postage/Shipping" },
+                    { 11, "Dry Cleaning" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "DepartmentId", "FirstName", "LastName" },
+                values: new object[,]
+                {
+                    { "7dad6c5e-bbae-4fe0-b53b-dc949751b41b", 0, "bac79b82-b152-4d51-a284-08aa47915f7b", "Employee", "r@leedy.com", true, false, null, "R@LEEDY.COM", "RLEEDY", "AQAAAAEAACcQAAAAECYiyVgRWNY+5tKpnYKScqKZyz5/OTYemgBNRbxWJSO++q0BwgMQ1FbOwcp3EV/Pvg==", null, false, "9666b447-100c-4df2-b45c-eacfd3eb2b21", false, "rleedy", 1, "Robert", "Leedy" },
+                    { "a7bfbba7-233a-40fc-81dc-99b0aa64fbc7", 0, "29da0ab3-47b9-4646-b291-26f28a7c35e6", "Employee", "w@kimball.com", true, false, null, "W@KIMBALL.COM", "WKIMBALL", "AQAAAAEAACcQAAAAEI311Nd2fktfyfSO1Xp8snXZqaaR2I/KsZzytHoceN1pOsH4zTBV1QQgxZ27NMkHnw==", null, false, "5ee3e979-46e2-4d82-9f9a-c9d4beddebfc", false, "wkimball", 2, "William", "Kimball" },
+                    { "a0c40966-38d2-4c81-ac13-d42634920cde", 0, "7f459445-692e-4d7e-abed-40694cac439b", "Employee", "n@cox.com", true, false, null, "N@COX.COM", "NCOX", "AQAAAAEAACcQAAAAENVZNJWqBE6n6+NA2h/6lmy0hLRwx1txw6XHeTSHNbxeuzBmb6jP6Pvb4X2QmNgNKg==", null, false, "8e4ff1bc-715d-4943-80af-111a4e36f4fb", false, "ncox", 3, "Natasha", "Cox" },
+                    { "62819b67-8343-470f-b61d-620b77abc420", 0, "c3dcef5d-50aa-4a82-9100-1e947070f2a8", "Employee", "l@gwin.com", true, false, null, "L@GWIN.COM", "LGWIN", "AQAAAAEAACcQAAAAEMVhARy2gt165AoFHtymB1I+IP5b8ZaFsvLOGzQ2JVdU4gJD6i3R4uhdt3bSrrnsWg==", null, false, "2e729c6c-dd15-434a-a443-7c2a7e2e5904", false, "lgwin", 4, "Leah", "Gwin" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -97,10 +97,15 @@ export default class CreateExpenseForm extends Component {
         APImanager.postExpense(body)
             .then(res => {
                 console.log(res)
-                photobody.expenseId = res.id
-                APImanager.postPhoto(photobody)
-            }).then(res => {
-                this.props.getUpdatedReport(id)
+                if (this.state.photoString !== "") {
+                    photobody.expenseId = res.id
+                    APImanager.postPhoto(photobody)
+                        .then(res => {
+                            this.props.getUpdatedReport(id)
+                        })
+                } else {
+                    this.props.getUpdatedReport(id)
+                }
             })
         alert("Successfully saved expense!")
     }
