@@ -139,6 +139,10 @@ export default class ReportView extends Component {
                                             Location of Expense
                                         </Title>
                                         {expense.location}
+                                        <Title isSize={5}>
+                                            Receipt:
+                                        </Title>
+                                        {expense.photos.length < 1 ? "Not Attached" : "Attached"}
                                     </Box>
                                 </ExpansionPanelDetails>
                                 <div>

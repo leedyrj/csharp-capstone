@@ -14,10 +14,11 @@ import Select from '@material-ui/core/Select';
 import APImanager from '../APImanager';
 import AddPhoto from './AddPhoto';
 import request from 'superagent';
-import Camera from '../Camera/camera'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCamera } from '@fortawesome/free-solid-svg-icons'
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
 
 
 library.add(faCamera)
@@ -37,7 +38,8 @@ export default class CreateExpenseForm extends Component {
         expenseTypeId: 0,
         reportId: this.props.oneReport.id,
         selectedFile: null,
-        photoString: ""
+        photoString: "",
+        cameraOpen: false
     }
 
     handleFieldChange = (evt) => {
@@ -88,21 +90,14 @@ export default class CreateExpenseForm extends Component {
         }
 
         let photobody = {
-            "expense":
-            {
-                "reportId": this.state.reportId,
-                "description": this.state.description,
-                "amount": this.state.amount,
-                "expenseDate": this.state.expenseDate,
-                "location": this.state.location,
-                "expenseTypeId": this.state.expenseTypeId
-            },
             "photoPath": this.state.photoString
         }
         let id = this.state.reportId
         console.log("bodybeforeapi", body)
         APImanager.postExpense(body)
             .then(res => {
+                console.log(res)
+                photobody.expenseId = res.id
                 APImanager.postPhoto(photobody)
             }).then(res => {
                 this.props.getUpdatedReport(id)
@@ -110,23 +105,23 @@ export default class CreateExpenseForm extends Component {
         alert("Successfully saved expense!")
     }
 
-    handleImageUpload(file) {
-        let upload = request.post(cloudUpAddr)
-            .field('upload_preset', cloudUpPreset)
-            .field('file', file);
+    // handleImageUpload(file) {
+    //     let upload = request.post(cloudUpAddr)
+    //         .field('upload_preset', cloudUpPreset)
+    //         .field('file', file);
 
-        upload.end((err, response) => {
-            if (err) {
-                console.error(err);
-            }
+    //     upload.end((err, response) => {
+    //         if (err) {
+    //             console.error(err);
+    //         }
 
-            if (response.body.secure_url !== '') {
-                this.setState(({ photoString }) => ({
-                    photoString: (response.body.secure_url),
-                }))
-            }
-        });
-    }
+    //         if (response.body.secure_url !== '') {
+    //             this.setState(({ photoString }) => ({
+    //                 photoString: (response.body.secure_url),
+    //             }))
+    //         }
+    //     });
+    // }
 
     fileSelectHandler = e => {
         this.setState({
@@ -135,71 +130,85 @@ export default class CreateExpenseForm extends Component {
         console.log(e.target.files[0])
     }
 
-    takePic = () => {
-        // <Camera
-        //     onTakePhoto={(dataUri) => { this.onTakePhoto(dataUri); }}
-        // />
+    openCamera = () => {
+        this.setState({
+            cameraOpen: true
+        })
+    }
+
+    onTakePhoto(dataUri) {
+        // Do stuff with the dataUri photo...
+        console.log('takePhoto', dataUri);
+        this.setState({
+            cameraOpen: false,
+            photoString: dataUri
+        })
     }
 
     render() {
-        return (
-            <React.Fragment>
-                <form noValidate autoComplete="off">
-                    <TextField
-                        type="text"
-                        id="description"
-                        label="Description of Expense"
-                        onChange={this.handleFieldChange}
-                        margin="normal"
-                    />
+        if (this.state.cameraOpen) {
+            return (
+                <Camera onTakePhoto={(dataUri) => { this.onTakePhoto(dataUri); }} />
+            )
+        } else
+            return (
+                <React.Fragment>
+                    <form noValidate autoComplete="off">
+                        <TextField
+                            type="text"
+                            id="description"
+                            label="Description of Expense"
+                            onChange={this.handleFieldChange}
+                            margin="normal"
+                        />
 
-                    <TextField
-                        id="amount"
-                        label="Amount of Expense"
-                        onChange={this.handleFieldChange}
-                        margin="normal"
-                        type="number"
-                    />
+                        <TextField
+                            id="amount"
+                            label="Amount of Expense"
+                            onChange={this.handleFieldChange}
+                            margin="normal"
+                            type="number"
+                        />
 
-                    <TextField
-                        id="location"
-                        label="Location of Expense"
-                        onChange={this.handleFieldChange}
-                        margin="normal"
-                        type="text"
-                    />
+                        <TextField
+                            id="location"
+                            label="Location of Expense"
+                            onChange={this.handleFieldChange}
+                            margin="normal"
+                            type="text"
+                        />
 
-                    <TextField
-                        id="expenseDate"
-                        // label="Date of Expense"
-                        onChange={this.handleFieldChange}
-                        margin="normal"
-                        type="date"
-                    />
+                        <TextField
+                            id="expenseDate"
+                            // label="Date of Expense"
+                            onChange={this.handleFieldChange}
+                            margin="normal"
+                            type="date"
+                        />
 
-                    <InputLabel htmlFor="demo-controlled-open-select">Expense Type</InputLabel>
-                    <Select
-                        open={this.state.open}
-                        onClose={this.handleClose}
-                        onOpen={this.handleOpen}
-                        value={this.state.age}
-                        onChange={this.handleChange}
-                        name="expenseTypeId"
-                    >
-                        {this.state.expenseTypes.map(expenseType => {
-                            return <MenuItem value={expenseType.id} id={expenseType.id} >{expenseType.expenseTypeName}</MenuItem>
-                        })}
-                    </Select>
+                        <InputLabel htmlFor="demo-controlled-open-select">Expense Type</InputLabel>
+                        <Select
+                            open={this.state.open}
+                            onClose={this.handleClose}
+                            onOpen={this.handleOpen}
+                            value={this.state.age}
+                            onChange={this.handleChange}
+                            name="expenseTypeId"
+                        >
+                            {this.state.expenseTypes.map(expenseType => {
+                                return <MenuItem value={expenseType.id} id={expenseType.id} >{expenseType.expenseTypeName}</MenuItem>
+                            })}
+                        </Select>
 
-                    <React.Fragment>
-                        <Input type="file" onChange={this.fileSelectHandler} />
-                        <Button variant="contained" color="secondary" onClick={() => this.handleImageUpload(this.state.selectedFile)}>Save Photo</Button>
-                        <Button variant="contained" onClick={this.takePic}><FontAwesomeIcon icon={faCamera} /></Button>
-                    </React.Fragment>
+                        <React.Fragment>
+                            {/* <Input type="file" onChange={this.fileSelectHandler} />
+                            <Button variant="contained" color="secondary" onClick={() => this.handleImageUpload(this.state.selectedFile)}>Save Photo</Button> */}
+                            <Button variant="contained" onClick={this.openCamera}><FontAwesomeIcon icon={faCamera} /></Button>
+                        </React.Fragment>
 
-                    <Button variant="contained" color="primary" onClick={this.postExpense} id={this.props.oneReport.id}>Save Expense</Button>
-                </form>
-            </React.Fragment>
-        )
+                        <Button variant="contained" color="primary" onClick={this.postExpense} id={this.props.oneReport.id}>Save Expense</Button>
+                    </form>
+                </React.Fragment>
+            )
     }
 }
