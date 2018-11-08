@@ -10,8 +10,8 @@ using capstoneapi.Data;
 namespace capstoneapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181107161327_addemily")]
-    partial class addemily
+    [Migration("20181108192238_newsetup")]
+    partial class newsetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,13 @@ namespace capstoneapi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new { Id = 1, Budget = 50000, DepartmentName = "Human Resources" },
+                        new { Id = 2, Budget = 50000, DepartmentName = "Sales" },
+                        new { Id = 3, Budget = 50000, DepartmentName = "Information Technology" },
+                        new { Id = 4, Budget = 50000, DepartmentName = "Marketing" }
+                    );
                 });
 
             modelBuilder.Entity("capstoneapi.Models.Expense", b =>
@@ -78,6 +85,20 @@ namespace capstoneapi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ExpenseTypes");
+
+                    b.HasData(
+                        new { Id = 1, ExpenseTypeName = "Mileage" },
+                        new { Id = 2, ExpenseTypeName = "Lodging" },
+                        new { Id = 3, ExpenseTypeName = "Meals - Employees Only" },
+                        new { Id = 4, ExpenseTypeName = "Meals - Client/Guest" },
+                        new { Id = 5, ExpenseTypeName = "Fuel" },
+                        new { Id = 6, ExpenseTypeName = "Travel - Transportation" },
+                        new { Id = 7, ExpenseTypeName = "Supplies" },
+                        new { Id = 8, ExpenseTypeName = "Travel - Misc" },
+                        new { Id = 9, ExpenseTypeName = "Registration Fees" },
+                        new { Id = 10, ExpenseTypeName = "Postage/Shipping" },
+                        new { Id = 11, ExpenseTypeName = "Dry Cleaning" }
+                    );
                 });
 
             modelBuilder.Entity("capstoneapi.Models.Photo", b =>
@@ -310,7 +331,10 @@ namespace capstoneapi.Migrations
                     b.HasDiscriminator().HasValue("Employee");
 
                     b.HasData(
-                        new { Id = "78419dc1-039f-47a4-8c0a-cdfabdda8396", AccessFailedCount = 0, ConcurrencyStamp = "8299ccf6-0d8a-4e8f-a780-911220ecce6d", Email = "e@lemmon.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "E@LEMMON.COM", NormalizedUserName = "EMLEM", PasswordHash = "AQAAAAEAACcQAAAAECW1aofrkzB2U6pO0sBpq0Vp52q5Cyazi7ii9dw1BPC8lqQ/4Fajd0k4xWeztUvtww==", PhoneNumberConfirmed = false, SecurityStamp = "2a8a2d46-bba1-4527-87fe-681cd237d1ba", TwoFactorEnabled = false, UserName = "emlem", DepartmentId = 1, FirstName = "Emily", LastName = "Lemmon" }
+                        new { Id = "7dad6c5e-bbae-4fe0-b53b-dc949751b41b", AccessFailedCount = 0, ConcurrencyStamp = "bac79b82-b152-4d51-a284-08aa47915f7b", Email = "r@leedy.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "R@LEEDY.COM", NormalizedUserName = "RLEEDY", PasswordHash = "AQAAAAEAACcQAAAAECYiyVgRWNY+5tKpnYKScqKZyz5/OTYemgBNRbxWJSO++q0BwgMQ1FbOwcp3EV/Pvg==", PhoneNumberConfirmed = false, SecurityStamp = "9666b447-100c-4df2-b45c-eacfd3eb2b21", TwoFactorEnabled = false, UserName = "rleedy", DepartmentId = 1, FirstName = "Robert", LastName = "Leedy" },
+                        new { Id = "a7bfbba7-233a-40fc-81dc-99b0aa64fbc7", AccessFailedCount = 0, ConcurrencyStamp = "29da0ab3-47b9-4646-b291-26f28a7c35e6", Email = "w@kimball.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "W@KIMBALL.COM", NormalizedUserName = "WKIMBALL", PasswordHash = "AQAAAAEAACcQAAAAEI311Nd2fktfyfSO1Xp8snXZqaaR2I/KsZzytHoceN1pOsH4zTBV1QQgxZ27NMkHnw==", PhoneNumberConfirmed = false, SecurityStamp = "5ee3e979-46e2-4d82-9f9a-c9d4beddebfc", TwoFactorEnabled = false, UserName = "wkimball", DepartmentId = 2, FirstName = "William", LastName = "Kimball" },
+                        new { Id = "a0c40966-38d2-4c81-ac13-d42634920cde", AccessFailedCount = 0, ConcurrencyStamp = "7f459445-692e-4d7e-abed-40694cac439b", Email = "n@cox.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "N@COX.COM", NormalizedUserName = "NCOX", PasswordHash = "AQAAAAEAACcQAAAAENVZNJWqBE6n6+NA2h/6lmy0hLRwx1txw6XHeTSHNbxeuzBmb6jP6Pvb4X2QmNgNKg==", PhoneNumberConfirmed = false, SecurityStamp = "8e4ff1bc-715d-4943-80af-111a4e36f4fb", TwoFactorEnabled = false, UserName = "ncox", DepartmentId = 3, FirstName = "Natasha", LastName = "Cox" },
+                        new { Id = "62819b67-8343-470f-b61d-620b77abc420", AccessFailedCount = 0, ConcurrencyStamp = "c3dcef5d-50aa-4a82-9100-1e947070f2a8", Email = "l@gwin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "L@GWIN.COM", NormalizedUserName = "LGWIN", PasswordHash = "AQAAAAEAACcQAAAAEMVhARy2gt165AoFHtymB1I+IP5b8ZaFsvLOGzQ2JVdU4gJD6i3R4uhdt3bSrrnsWg==", PhoneNumberConfirmed = false, SecurityStamp = "2e729c6c-dd15-434a-a443-7c2a7e2e5904", TwoFactorEnabled = false, UserName = "lgwin", DepartmentId = 4, FirstName = "Leah", LastName = "Gwin" }
                     );
                 });
 
