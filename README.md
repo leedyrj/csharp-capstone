@@ -12,6 +12,21 @@ TravelTrackr is designed to help make tracking business expenses easier.  It alo
 To run this project on your own machine, do the following (requires npm):
 1. Fork/download this GitHub repository
 1. Run `$ npm install` in your terminal from the project directory
+1. Open `SotDLChargen.sln` with Visual Studio 2017
+1. Create an `appsetting.json` file similar to this
+```
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server = [YOUR DESKTOP\\SqlExpress];Database=CharGen;Trusted_Connection=True;"
+  }
+}
+```
 1. Run add-migration migrationName and update-database in your Package Manager Console
 
 5. Run `$ npm start` from the project directory to open the React App
