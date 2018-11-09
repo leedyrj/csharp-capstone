@@ -27,7 +27,7 @@ To run this project on your own machine, do the following (requires npm):
   }
 }
 ```
-1. Run add-migration migrationName and update-database in your Package Manager Console
+5. Run add-migration migrationName and update-database in your Package Manager Console
 
 5. Run `$ npm start` from the project directory to open the React App
 5. In a separate terminal, run `$ json-server -p 5050 -w src/Api/database.json` to activate the JSON Server
